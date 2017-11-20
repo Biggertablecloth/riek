@@ -20087,6 +20087,22 @@
 	                } // Escape
 	        };
 
+	        _this.keyUp = function () {
+	            debug('keyUp');
+	            _this.resizeInput(_this.refs.input);
+	        };
+
+	        _this.resizeInput = function (input) {
+	            if (!input.startW) {
+	                input.startW = input.offsetWidth;
+	            }
+	            var style = input.style;
+	            style.width = 0; // recalculate from 0, in case characters are deleted
+	            var desiredW = input.scrollWidth;
+	            desiredW += input.offsetHeight / 2; // pad to reduce jerkyness when typing
+	            style.width = Math.max(desiredW, input.startW) + 'px';
+	        };
+
 	        _this.textChanged = function (event) {
 	            debug('textChanged(${event.target.value})');
 	            _this.doValidations(event.target.value.trim());
@@ -20115,7 +20131,8 @@
 	                onInput: _this.textChanged,
 	                onBlur: _this.elementBlur,
 	                ref: 'input',
-	                onKeyDown: _this.keyDown
+	                onKeyDown: _this.keyDown,
+	                onKeyUp: _this.keyUp
 	            }, _this.props.editProps));
 	        };
 
@@ -20211,6 +20228,20 @@
 	            if (event.keyCode === 27) {
 	                _this.cancelEditing();
 	            } // Escape
+	        }, _this.keyUp = function () {
+	            _this.resizeInput(_this.refs.input);
+	        }, _this.resizeInput = function (input) {
+	            if (!input.startH) {
+	                input.startH = input.offsetHeight;
+	            }
+	            var style = input.style;
+	            style.height = 0; // recalculate from 0, in case characters are deleted
+	            var desiredH = input.scrollHeight;
+	            style.height = Math.max(desiredH, input.startH) + 'px';
+	        }, _this.componentDidUpdate = function (prevProps, prevState) {
+	            if (_this.state.editing && !prevState.editing) {
+	                _this.resizeInput(_this.refs.input);
+	            }
 	        }, _this.renderEditingComponent = function () {
 	            return _react2.default.createElement('textarea', _extends({
 	                rows: _this.props.rows,
@@ -20221,7 +20252,8 @@
 	                onInput: _this.textChanged,
 	                onBlur: _this.finishEditing,
 	                ref: 'input',
-	                onKeyDown: _this.keyDown
+	                onKeyDown: _this.keyDown,
+	                onKeyUp: _this.keyUp
 	            }, _this.props.editProps));
 	        }, _this.renderNormalComponent = function () {
 	            var value = _this.state.newValue || _this.props.value;
