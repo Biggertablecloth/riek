@@ -53,8 +53,8 @@ export default class RIEStatefulBase extends RIEBase {
         if (!input.startW) { input.startW = input.offsetWidth; }
         const style = input.style;
         style.width = 0;                        // recalculate from 0, in case characters are deleted
-        let desiredW = input.scrollWidth;  
-        desiredW += input.offsetHeight;         // pad to reduce jerkyness when typing
+        let desiredW = input.scrollWidth;
+        desiredW += input.offsetHeight / 2;         // pad to reduce jerkyness when typing
         style.width = Math.max(desiredW, input.startW) + 'px';
     }
 
@@ -70,7 +70,6 @@ export default class RIEStatefulBase extends RIEBase {
         if (this.state.editing && !prevState.editing) {
             debug('entering edit mode')
             inputElem.focus();
-            this.resizeInput(inputElem);
             this.selectInputText(inputElem);
         } else if (this.state.editing && prevProps.text != this.props.text) {
             debug('not editing && text not equal previous props -- finishing editing')
