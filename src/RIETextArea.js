@@ -7,6 +7,24 @@ export default class RIETextArea extends RIEStatefulBase {
         if (event.keyCode === 27) { this.cancelEditing() }     // Escape
     };
 
+    keyUp = () => {
+        this.resizeInput(this.refs.input);
+    };
+
+    resizeInput = input => {
+        if (!input.startH) { input.startH = input.offsetHeight; }
+        const style = input.style;
+        style.height = 0;                        // recalculate from 0, in case characters are deleted
+        let desiredH = input.scrollHeight;
+        style.height = Math.max(desiredH, input.startH) + 'px';
+    };
+
+    componentDidUpdate = (prevProps, prevState) => {
+        if (this.state.editing && !prevState.editing) {
+            this.resizeInput(this.refs.input)
+        }
+    };
+
     renderEditingComponent = () => {
         return <textarea
             rows={this.props.rows}
@@ -18,6 +36,7 @@ export default class RIETextArea extends RIEStatefulBase {
             onBlur={this.finishEditing}
             ref="input"
             onKeyDown={this.keyDown}
+            onKeyUp={this.keyUp}
             {...this.props.editProps} />;
     };
 
