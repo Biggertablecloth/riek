@@ -52,6 +52,7 @@ export default class RIEStatefulBase extends RIEBase {
 
     keyUp = () => {
         debug('keyUp')
+        if (this.props.shouldNotResize) return;
         this.resizeInput(this.refs.input);
     };
 

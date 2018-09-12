@@ -19478,6 +19478,7 @@
 	    handleValidationFail: _propTypes2.default.func,
 	    shouldBlockWhileLoading: _propTypes2.default.bool,
 	    shouldRemainWhileInvalid: _propTypes2.default.bool,
+	    shouldNotResize: _propTypes2.default.bool,
 	    classLoading: _propTypes2.default.string,
 	    classEditing: _propTypes2.default.string,
 	    classDisabled: _propTypes2.default.string,
@@ -20136,6 +20137,7 @@
 
 	        _this.keyUp = function () {
 	            debug('keyUp');
+	            if (_this.props.shouldNotResize) return;
 	            _this.resizeInput(_this.refs.input);
 	        };
 
@@ -20285,6 +20287,7 @@
 	                _this.cancelEditing();
 	            } // Escape
 	        }, _this.keyUp = function () {
+	            if (_this.props.shouldNotResize) return;
 	            _this.resizeInput(_this.refs.input);
 	        }, _this.resizeInput = function (input) {
 	            if (!input.startH) {
@@ -20295,7 +20298,7 @@
 	            var desiredH = input.scrollHeight;
 	            style.height = Math.max(desiredH, input.startH) + 'px';
 	        }, _this.componentDidUpdate = function (prevProps, prevState) {
-	            if (_this.state.editing && !prevState.editing) {
+	            if (_this.state.editing && !prevState.editing && !_this.props.shouldNotResize) {
 	                _this.resizeInput(_this.refs.input);
 	            }
 	        }, _this.renderEditingComponent = function () {

@@ -30,6 +30,7 @@ export default class RIEBase extends React.Component {
         handleValidationFail: PropTypes.func,
         shouldBlockWhileLoading: PropTypes.bool,
         shouldRemainWhileInvalid: PropTypes.bool,
+        shouldNotResize: PropTypes.bool,
         classLoading: PropTypes.string,
         classEditing: PropTypes.string,
         classDisabled: PropTypes.string,

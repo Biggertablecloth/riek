@@ -8,6 +8,7 @@ export default class RIETextArea extends RIEStatefulBase {
     };
 
     keyUp = () => {
+        if (this.props.shouldNotResize) return;
         this.resizeInput(this.refs.input);
     };
 
@@ -20,7 +21,7 @@ export default class RIETextArea extends RIEStatefulBase {
     };
 
     componentDidUpdate = (prevProps, prevState) => {
-        if (this.state.editing && !prevState.editing) {
+        if (this.state.editing && !prevState.editing && !this.props.shouldNotResize) {
             this.resizeInput(this.refs.input)
         }
     };
